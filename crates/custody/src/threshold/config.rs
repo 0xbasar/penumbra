@@ -20,4 +20,8 @@ impl Config {
     pub fn key_package(&self) -> frost::keys::KeyPackage {
         todo!()
     }
+
+    pub fn public_key_package(&self) -> frost::keys::PublicKeyPackage {
+        todo!()
+    }
 }

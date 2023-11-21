@@ -5149,6 +5149,7 @@ dependencies = [
  "ed25519-consensus",
  "futures",
  "hex",
+ "penumbra-chain",
  "penumbra-keys",
  "penumbra-proto",
  "penumbra-transaction",

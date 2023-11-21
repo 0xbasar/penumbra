@@ -5145,6 +5145,7 @@ dependencies = [
  "base64 0.20.0",
  "bytes",
  "decaf377-frost",
+ "decaf377-rdsa",
  "ed25519-consensus",
  "futures",
  "hex",

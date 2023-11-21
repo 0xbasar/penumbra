@@ -63,9 +63,15 @@ message FollowerRound1 {
 
 // The second message the followers send back to the coordinator when signing. 
 message FollowerRound2 {
-  // One share for each signature requested by the plan, in order.
-  //
-  // These can be unsigned, since any shenanigans will be detected when the signature
-  // fails to verify.
-  repeated crypto.decaf377_frost.v1alpha1.SignatureShare shares = 1;
+  // The inner message that will be signed by the follower.
+  message Inner {
+    // One share for each signature requested by the plan, in order.
+    repeated crypto.decaf377_frost.v1alpha1.SignatureShare shares = 1;
+  }
+
+  Inner inner = 1;
+  // The verification key identifying the sender.
+  VerificationKey pk = 2;
+  // A signature over the proto-encoded bytes of inner.
+  Signature sig = 3;
 }

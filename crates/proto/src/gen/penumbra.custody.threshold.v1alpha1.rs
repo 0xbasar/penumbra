@@ -91,12 +91,25 @@ pub mod follower_round1 {
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct FollowerRound2 {
-    /// One share for each signature requested by the plan, in order.
-    ///
-    /// These can be unsigned, since any shenanigans will be detected when the signature
-    /// fails to verify.
-    #[prost(message, repeated, tag = "1")]
-    pub shares: ::prost::alloc::vec::Vec<
-        super::super::super::crypto::decaf377_frost::v1alpha1::SignatureShare,
-    >,
+    #[prost(message, optional, tag = "1")]
+    pub inner: ::core::option::Option<follower_round2::Inner>,
+    /// The verification key identifying the sender.
+    #[prost(message, optional, tag = "2")]
+    pub pk: ::core::option::Option<VerificationKey>,
+    /// A signature over the proto-encoded bytes of inner.
+    #[prost(message, optional, tag = "3")]
+    pub sig: ::core::option::Option<Signature>,
+}
+/// Nested message and enum types in `FollowerRound2`.
+pub mod follower_round2 {
+    /// The inner message that will be signed by the follower.
+    #[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    pub struct Inner {
+        /// One share for each signature requested by the plan, in order.
+        #[prost(message, repeated, tag = "1")]
+        pub shares: ::prost::alloc::vec::Vec<
+            super::super::super::super::crypto::decaf377_frost::v1alpha1::SignatureShare,
+        >,
+    }
 }

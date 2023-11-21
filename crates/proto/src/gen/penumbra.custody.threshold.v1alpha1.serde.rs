@@ -608,17 +608,142 @@ impl serde::Serialize for FollowerRound2 {
     {
         use serde::ser::SerializeStruct;
         let mut len = 0;
-        if !self.shares.is_empty() {
+        if self.inner.is_some() {
+            len += 1;
+        }
+        if self.pk.is_some() {
+            len += 1;
+        }
+        if self.sig.is_some() {
             len += 1;
         }
         let mut struct_ser = serializer.serialize_struct("penumbra.custody.threshold.v1alpha1.FollowerRound2", len)?;
+        if let Some(v) = self.inner.as_ref() {
+            struct_ser.serialize_field("inner", v)?;
+        }
+        if let Some(v) = self.pk.as_ref() {
+            struct_ser.serialize_field("pk", v)?;
+        }
+        if let Some(v) = self.sig.as_ref() {
+            struct_ser.serialize_field("sig", v)?;
+        }
+        struct_ser.end()
+    }
+}
+impl<'de> serde::Deserialize<'de> for FollowerRound2 {
+    #[allow(deprecated)]
+    fn deserialize<D>(deserializer: D) -> std::result::Result<Self, D::Error>
+    where
+        D: serde::Deserializer<'de>,
+    {
+        const FIELDS: &[&str] = &[
+            "inner",
+            "pk",
+            "sig",
+        ];
+
+        #[allow(clippy::enum_variant_names)]
+        enum GeneratedField {
+            Inner,
+            Pk,
+            Sig,
+        }
+        impl<'de> serde::Deserialize<'de> for GeneratedField {
+            fn deserialize<D>(deserializer: D) -> std::result::Result<GeneratedField, D::Error>
+            where
+                D: serde::Deserializer<'de>,
+            {
+                struct GeneratedVisitor;
+
+                impl<'de> serde::de::Visitor<'de> for GeneratedVisitor {
+                    type Value = GeneratedField;
+
+                    fn expecting(&self, formatter: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+                        write!(formatter, "expected one of: {:?}", &FIELDS)
+                    }
+
+                    #[allow(unused_variables)]
+                    fn visit_str<E>(self, value: &str) -> std::result::Result<GeneratedField, E>
+                    where
+                        E: serde::de::Error,
+                    {
+                        match value {
+                            "inner" => Ok(GeneratedField::Inner),
+                            "pk" => Ok(GeneratedField::Pk),
+                            "sig" => Ok(GeneratedField::Sig),
+                            _ => Err(serde::de::Error::unknown_field(value, FIELDS)),
+                        }
+                    }
+                }
+                deserializer.deserialize_identifier(GeneratedVisitor)
+            }
+        }
+        struct GeneratedVisitor;
+        impl<'de> serde::de::Visitor<'de> for GeneratedVisitor {
+            type Value = FollowerRound2;
+
+            fn expecting(&self, formatter: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+                formatter.write_str("struct penumbra.custody.threshold.v1alpha1.FollowerRound2")
+            }
+
+            fn visit_map<V>(self, mut map_: V) -> std::result::Result<FollowerRound2, V::Error>
+                where
+                    V: serde::de::MapAccess<'de>,
+            {
+                let mut inner__ = None;
+                let mut pk__ = None;
+                let mut sig__ = None;
+                while let Some(k) = map_.next_key()? {
+                    match k {
+                        GeneratedField::Inner => {
+                            if inner__.is_some() {
+                                return Err(serde::de::Error::duplicate_field("inner"));
+                            }
+                            inner__ = map_.next_value()?;
+                        }
+                        GeneratedField::Pk => {
+                            if pk__.is_some() {
+                                return Err(serde::de::Error::duplicate_field("pk"));
+                            }
+                            pk__ = map_.next_value()?;
+                        }
+                        GeneratedField::Sig => {
+                            if sig__.is_some() {
+                                return Err(serde::de::Error::duplicate_field("sig"));
+                            }
+                            sig__ = map_.next_value()?;
+                        }
+                    }
+                }
+                Ok(FollowerRound2 {
+                    inner: inner__,
+                    pk: pk__,
+                    sig: sig__,
+                })
+            }
+        }
+        deserializer.deserialize_struct("penumbra.custody.threshold.v1alpha1.FollowerRound2", FIELDS, GeneratedVisitor)
+    }
+}
+impl serde::Serialize for follower_round2::Inner {
+    #[allow(deprecated)]
+    fn serialize<S>(&self, serializer: S) -> std::result::Result<S::Ok, S::Error>
+    where
+        S: serde::Serializer,
+    {
+        use serde::ser::SerializeStruct;
+        let mut len = 0;
+        if !self.shares.is_empty() {
+            len += 1;
+        }
+        let mut struct_ser = serializer.serialize_struct("penumbra.custody.threshold.v1alpha1.FollowerRound2.Inner", len)?;
         if !self.shares.is_empty() {
             struct_ser.serialize_field("shares", &self.shares)?;
         }
         struct_ser.end()
     }
 }
-impl<'de> serde::Deserialize<'de> for FollowerRound2 {
+impl<'de> serde::Deserialize<'de> for follower_round2::Inner {
     #[allow(deprecated)]
     fn deserialize<D>(deserializer: D) -> std::result::Result<Self, D::Error>
     where
@@ -662,13 +787,13 @@ impl<'de> serde::Deserialize<'de> for FollowerRound2 {
         }
         struct GeneratedVisitor;
         impl<'de> serde::de::Visitor<'de> for GeneratedVisitor {
-            type Value = FollowerRound2;
+            type Value = follower_round2::Inner;
 
             fn expecting(&self, formatter: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-                formatter.write_str("struct penumbra.custody.threshold.v1alpha1.FollowerRound2")
+                formatter.write_str("struct penumbra.custody.threshold.v1alpha1.FollowerRound2.Inner")
             }
 
-            fn visit_map<V>(self, mut map_: V) -> std::result::Result<FollowerRound2, V::Error>
+            fn visit_map<V>(self, mut map_: V) -> std::result::Result<follower_round2::Inner, V::Error>
                 where
                     V: serde::de::MapAccess<'de>,
             {
@@ -683,12 +808,12 @@ impl<'de> serde::Deserialize<'de> for FollowerRound2 {
                         }
                     }
                 }
-                Ok(FollowerRound2 {
+                Ok(follower_round2::Inner {
                     shares: shares__.unwrap_or_default(),
                 })
             }
         }
-        deserializer.deserialize_struct("penumbra.custody.threshold.v1alpha1.FollowerRound2", FIELDS, GeneratedVisitor)
+        deserializer.deserialize_struct("penumbra.custody.threshold.v1alpha1.FollowerRound2.Inner", FIELDS, GeneratedVisitor)
     }
 }
 impl serde::Serialize for Signature {

@@ -344,7 +344,7 @@ pub fn coordinator_round3(
             frost::aggregate_randomized(
                 signing_package,
                 &share_map,
-                &config.public_key_package(),
+                &config.public_key_package,
                 randomizer,
             )
         })
@@ -364,7 +364,7 @@ pub fn follower_round1(
 ) -> Result<(FollowerRound1, FollowerState)> {
     let required = required_signatures(&coordinator.plan);
     let (nonces, commitments) = (0..required)
-        .map(|_| frost::round1::commit(&config.signing_share, rng))
+        .map(|_| frost::round1::commit(&config.key_package.secret_share(), rng))
         .unzip();
     let reply = FollowerRound1::make(&config.signing_key, commitments);
     let state = FollowerState {
@@ -395,7 +395,7 @@ pub fn follower_round2(
             frost::round2::sign_randomized(
                 &signing_package,
                 &signer_nonces,
-                &config.key_package(),
+                &config.key_package,
                 randomizer,
             )
         })
